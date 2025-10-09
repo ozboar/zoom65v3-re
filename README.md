@@ -9,6 +9,8 @@ MCU: `HFD22001A` (Huafenda-rebranded WestBerryTech `WB32FQ95`)
 
 ### Firmware
 
+Working open sourced firmware: https://github.com/ozboar/qmk_firmware/tree/meletrix_zoom65_v3/keyboards/meletrix/zoom65_v3
+
 - [1.6mm v1.10 firmware](./firmware/ZOOM65V3_UK_via_v1_10_20241008.bin)
 - [1.6mm v1.10 via json](./layout/ZOOM65_v3_uk_via_v1.01_20240827.json)
 
