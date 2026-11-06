@@ -49,8 +49,7 @@ Visualized layout available at this [keyboard layout editor permalink](https://w
 - A meter on one keyboard confirmed pins 2, 4, 5, 6, 7, 8, 9, 10, 12 and 13, with 3.3 V on pin 10. Pin 14 is also ground. Pins 1 and 11 were not measured
 - Pin 4 reaches C6 through a diode on the main board. Pin 3 also shows a diode, source not traced
 - RX and TX are used for commands over UART3
-- Pins 6 and 7 are the screen MCU BOOT0 and NRST per the [main board](./docs/65V3-Mboard_SCH.pdf) and [screen](./docs/65V3-LCD_SCH_Schematic.pdf) schematics. The screen board has a 10k pulldown on BOOT0 and a 10k pullup on NRST. Continuity to the screen board was not measured
-- The main board schematic numbers this connector in reverse: schematic pin N is pin 15-N here
+- Pins 6 and 7 are the screen MCU BOOT0 and NRST, confirmed with the probe firmware. The screen board has a 10k pulldown on BOOT0 and a 10k pullup on NRST
 - Column 14 + 15 are used for the rotary encoder
 - Column 14 is used for the onekey module
 
@@ -66,6 +65,24 @@ Visualized layout available at this [keyboard layout editor permalink](https://w
 - `B12`: LED-V1; TBD, maybe boost pin ?
 
 ## Screen Module
+
+See the [screen module knowledge base](./docs/screen/README.md) for the hardware, bootloader, firmware and protocol details.
+
+### MCU Dump
+
+The stock screen firmware can be read over the ribbon with no extra hardware, because access protection is disabled on the screen MCU. This was done on one keyboard.
+
+| | |
+|---|---|
+| File | [dumps/screen-mcu.bin](./dumps/screen-mcu.bin) |
+| Base address | `0x08000000` |
+| Size | 1 MiB (the whole of internal flash) |
+| Used | About 379 KB, the rest is blank |
+| SHA-256 | `d9d74c10c5bb65c10428b86c9ada3d390c9365be0ccb801debc23262ebf00cd1` |
+
+The dump does not include the W25Q128 external flash, which holds uploaded media and probably the UI assets.
+
+It was read through the ROM bootloader by a read-only probe firmware running on the keyboard MCU, which drives BOOT0 (A8) and NRST (B13) and talks over UART3 at 115200 8E1. Two full reads matched. See [dumping](./docs/screen/bootloader.md#dumping) for the details.
 
 ### HID/Via Commands
 
