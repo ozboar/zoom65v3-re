@@ -55,17 +55,29 @@ All other vectors point to the default handler at `0x0800023E`.
 
 ## External flash map
 
-The firmware selects flash type 2 (`FLASH_SELECT`) and sets `FLASH_DA` to 0. Per the manual, `FLASH_DA` is the size of the encrypted range starting at `0x08400000`, so this should mean no encrypted range. `EXT_FLASH_KEY` has not been read.
+The firmware selects flash type 2 (`FLASH_SELECT`) and sets `FLASH_DA` to 0. Per the manual, `FLASH_DA` is the size of the encrypted range starting at `0x08400000`, so this should mean no encrypted range. `EXT_FLASH_KEY` at `0x1FFFF820` reads `FF 00` for all key bytes, which the manual lists as not encrypted, and the 36 referenced images decode as plain data (measured).
 
-| Address | W25Q128 offset | Contents |
+The chip repeats every 4 MB, see [hardware.md](./hardware.md#external-flash).
+
+| Address | Chip offset | Contents |
 |---|---|---|
-| `0x084F9358` to `0x0857CD28` | `0x0F9358` to `0x17CD28` | Referenced by code as constants, likely UI assets (inferred) |
+| `0x084F9358` to `0x0857CD28` | `0x0F9358` to `0x17CD28` | Stock UI images, 36 referenced by code (measured) |
 | `0x08600000` | `0x200000` | Image present flag, `0x11111111` when set |
 | `0x08601000` | `0x201000` | GIF present flag, `0x11111111` when set |
 | `0x08602000` | `0x202000` | Theme flag, `0x12121212` or erased |
 | `0x08603000` | `0x203000` | GIF length in bytes |
 | `0x08610000` | `0x210000` | Uploaded image |
 | `0x08620000` | `0x220000` | Uploaded GIF |
+
+## External flash images
+
+The firmware references 36 images on the external flash, all RGB565 plus alpha with the high byte first (measured). Each address holds a 12 byte LVGL image descriptor, followed by the pixel data. The labels are the descriptor addresses.
+
+![Stock images on the external flash](./assets/external-flash-images.png)
+
+The data below the first image, at `0x08400000` to `0x084F93C7`, looks like font bitmaps (inferred).
+
+The dump at [dumps/screen-extflash.bin](../../dumps/screen-extflash.bin) has uploaded media erased, so the upload flags and slots read as blank there.
 
 ## Function index
 

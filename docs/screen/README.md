@@ -32,7 +32,7 @@ Claims are tagged with where they come from:
 - Whether sLib is enabled. The bootloader refuses to read `SLIB_STS0` and `SLIB_STS1`. The firmware never references the sLib unlock key or status registers, and all of main flash reads back.
 - Why the first bootloader entry out of stock firmware fails. See [bootloader.md](./bootloader.md#entry-with-boot0).
 - Whether `A5 00 FE` reaches the bootloader in practice. See [bootloader.md](./bootloader.md#entry-from-stock-firmware).
-- W25Q128 contents. It has not been read, and the bootloader's access to the `0x08400000` window is untested.
-- `EXT_FLASH_KEY` option bytes at `0x1FFFF820`, which decide whether external flash is encrypted. Not read yet.
+- External flash part number. It [behaves like a 4 MB chip](./hardware.md#external-flash), but the marking has not been read.
+- About 1 MB of external flash below the first referenced image, at `0x08400000` to `0x084F93C7`, looks like font bitmaps but is not decoded.
 - Panel resolution and exact controller part.
 - How the blue and pink themes differ. See [protocol.md](./protocol.md#theme).

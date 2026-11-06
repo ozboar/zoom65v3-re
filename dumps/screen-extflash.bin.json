@@ -1,0 +1,17 @@
+{
+ "base": 138412032,
+ "size": 4194304,
+ "sector_size": 4096,
+ "used_sectors": [
+  [
+   0,
+   381
+  ],
+  [
+   514,
+   514
+  ]
+ ],
+ "sanitized": "Uploaded media removed: image and GIF flags, GIF length, and everything from offset 0x210000 are erased to 0xFF. The theme flag at 0x202000 is kept.",
+ "sha256": "ffc3806b065a4ce7a48b4924fc2c801a4191aa07cb12ec672dc6130ee207bf7f"
+}

@@ -80,7 +80,20 @@ The stock screen firmware can be read over the ribbon with no extra hardware, be
 | Used | About 379 KB, the rest is blank |
 | SHA-256 | `d9d74c10c5bb65c10428b86c9ada3d390c9365be0ccb801debc23262ebf00cd1` |
 
-The dump does not include the W25Q128 external flash, which holds uploaded media and probably the UI assets.
+### External Flash Dump
+
+The stock UI assets are on the external SPI flash, read with a small read-only program loaded into the screen MCU's SRAM through the ROM bootloader.
+
+| | |
+|---|---|
+| File | [dumps/screen-extflash.bin](./dumps/screen-extflash.bin) |
+| Base address | `0x08400000` |
+| Size | 4 MiB, it behaves like a 4 MB chip, with contents repeating every 4 MB across the 16 MB window |
+| ffc3806b065a4ce7a48b4924fc2c801a4191aa07cb12ec672dc6130ee207bf7f-256 | `ffc3806b065a4ce7a48b4924fc2c801a4191aa07cb12ec672dc6130ee207bf7f` |
+
+The file is not a raw image. Uploaded media was removed: the image and GIF flags, the GIF length and everything from offset `0x210000` are erased to `0xFF`. The theme flag at offset `0x202000` is kept.
+
+![Stock images on the external flash](./docs/screen/assets/external-flash-images.png)
 
 It was read through the ROM bootloader by a read-only probe firmware running on the keyboard MCU, which drives BOOT0 (A8) and NRST (B13) and talks over UART3 at 115200 8E1. Two full reads matched. See [dumping](./docs/screen/bootloader.md#dumping) for the details.
 

@@ -48,7 +48,11 @@ Measured means the probe confirmed behavior through the line: both BOOT0 and NRS
 
 ## External flash
 
-W25Q128JVPIQ (16 MB) on the SPIM interface, memory mapped at `0x08400000`. See the [flash map](./firmware.md#external-flash-map).
+SPI flash on the SPIM interface, memory mapped at `0x08400000`. See the [flash map](./firmware.md#external-flash-map).
+
+The board design lists a W25Q128 (16 MB), but this keyboard's chip behaves like a 4 MB part (measured). Contents repeat every 4 MB across the 16 MB window, at `0x08400000`, `0x08800000`, `0x08C00000` and `0x09000000`. The sector maps match, and so did 17 sampled data blocks at every repeat. The chip marking has not been read.
+
+Only use the first 4 MB. Anything past it reads, and would write, the same physical data. A dump of the whole window contains four copies.
 
 ## LCD connector
 
