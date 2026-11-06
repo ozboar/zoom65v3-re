@@ -10,7 +10,6 @@ The `FE EF` unlock pair and the register layout point to the GalaxyCore GC9xxx f
 - The panel is mounted rotated 90 degrees from the controller: with the stock `36 C0` setting, controller rows run left to right on screen (measured).
 - Stock firmware handles this in software: its display setup appears to set LVGL's `sw_rotate` and a 90 degree `rotated` value (inferred, from the LVGL struct layout as remembered).
 - The visible area is 118x118: controller columns 10-127 and rows 10-127 (measured, a border drawn on these edges displays correctly).
-- Draw the rest of the 128x128 area black, so nothing shows around the visible area.
 - Screen position `(sx, sy)`, from the top left, is controller column `10 + sy`, row `127 - sx`.
 
 So 128x128 is the addressable area, not the visible one. Stock art matches this: the background at `0x08566B00` is 118x118.

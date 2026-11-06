@@ -36,7 +36,7 @@ Stock firmware has a software path that does not need BOOT0, and it has none of 
 1. `A5 00 FE` writes `0x5AA5` to backup register 1 (`0x40006C04`), then requests a system reset.
 2. Early in boot, `0x0800191C` checks that register. If the flag is set, it clears the flag, loads the stack pointer from `0x1FFFB000` and jumps to the address at `0x1FFFB004`, the ROM bootloader.
 
-The bootloader answered sync about 0.17 s after the command, sent as soon as 0.1 s after a reset. Loading and starting a 15 KB program this way took 4 s, measured from the host.
+The bootloader answered sync about 0.17 s after the command, sent as soon as 0.1 s after a reset.
 
 The screen never replies to this command, because it resets first. `uart3_command` in the QMK firmware blocks on `sdGet` waiting for a reply, so on firmware without a read timeout, sending this through the HID proxy would hang the keyboard until it is power cycled.
 
@@ -72,6 +72,6 @@ The host reads 24 bytes per request and read the whole region twice, saving it o
 
 ## Running code from SRAM
 
-Write Memory and Go work for loading and starting code in SRAM (measured). Programs run from `0x20008000` have read the external flash and driven the LCD, with internal flash untouched. A reset returns to stock firmware.
+Write Memory and Go work for loading and starting code in SRAM, with internal flash untouched (measured). A reset returns to stock firmware.
 
-Flash writes are untested. Flashing custom firmware needs a write-capable build, which does not exist yet.
+Flash writes are untested.
