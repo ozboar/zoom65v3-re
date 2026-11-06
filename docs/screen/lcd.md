@@ -2,7 +2,18 @@
 
 ## Controller
 
-The `FE EF` unlock pair and the register layout point to the GalaxyCore GC9xxx family, and the sequence resembles GC9107 setups (inferred, from memory). Resolution has not been decoded. Stock media sizes (110x110 image, 118x118 default GIF) only give a lower bound.
+The `FE EF` unlock pair and the register layout point to the GalaxyCore GC9xxx family, and the sequence resembles GC9107 setups (inferred, from memory).
+
+## Display area
+
+- Stock firmware registers a 128x128 display with LVGL at `0x0802A068`, with no window offset in its flush path (firmware).
+- The panel is mounted rotated 90 degrees from the controller: with the stock `36 C0` setting, controller rows run left to right on screen (measured).
+- Stock firmware handles this in software: its display setup appears to set LVGL's `sw_rotate` and a 90 degree `rotated` value (inferred, from the LVGL struct layout as remembered).
+- The visible area is 118x118: controller columns 10-127 and rows 10-127 (measured, a border drawn on these edges displays correctly).
+- Draw the rest of the 128x128 area black, so nothing shows around the visible area.
+- Screen position `(sx, sy)`, from the top left, is controller column `10 + sy`, row `127 - sx`.
+
+So 128x128 is the addressable area, not the visible one. Stock art matches this: the background at `0x08566B00` is 118x118.
 
 ## Interface (firmware)
 
@@ -21,7 +32,7 @@ The `FE EF` unlock pair and the register layout point to the GalaxyCore GC9xxx f
 
 ## Init sequence (firmware)
 
-From `lcd_init` at `0x080007F4`, with the first byte of each line sent as a command and the rest as data. Values come from the decompiled output, so check them against the disassembly before relying on them.
+From `lcd_init` at `0x080007F4`, with the first byte of each line sent as a command and the rest as data. This sequence has been run on the panel and works (measured).
 
 ```
 FE
@@ -58,4 +69,4 @@ BA FF FF
 
 ## Drawing (firmware)
 
-`lcd_set_window` at `0x08000728` sends `2A` and `2B` with their coordinates as 16-bit values through `0x08001628`, then `2C` to start pixel data.
+`lcd_set_window` at `0x08000720` sends `2A` and `2B` with their coordinates as 16-bit values through `0x08001628`, then `2C` to start pixel data. The flush callback at `0x08006708` then sends the pixels by DMA, through two 8 KB LVGL draw buffers.

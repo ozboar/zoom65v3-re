@@ -86,7 +86,7 @@ Names are descriptive and were assigned during analysis.
 | Address | Name | Notes |
 |---|---|---|
 | `0x08000224` | `Reset_Handler` | |
-| `0x08000728` | `lcd_set_window` | Sends `2A`, `2B`, `2C` |
+| `0x08000720` | `lcd_set_window` | Sends `2A`, `2B`, `2C` |
 | `0x080007F4` | `lcd_init` | See [lcd.md](./lcd.md) |
 | `0x0800191C` | `boot_check` | Jumps to the bootloader if flagged |
 | `0x08001964` | `system_reset` | Writes `AIRCR` |

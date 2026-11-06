@@ -31,8 +31,7 @@ Claims are tagged with where they come from:
 - Exact MCU part number. The chip marking has not been read.
 - Whether sLib is enabled. The bootloader refuses to read `SLIB_STS0` and `SLIB_STS1`. The firmware never references the sLib unlock key or status registers, and all of main flash reads back.
 - Why the first bootloader entry out of stock firmware fails. See [bootloader.md](./bootloader.md#entry-with-boot0).
-- Whether `A5 00 FE` reaches the bootloader in practice. See [bootloader.md](./bootloader.md#entry-from-stock-firmware).
 - External flash part number. It [behaves like a 4 MB chip](./hardware.md#external-flash), but the marking has not been read.
 - About 1 MB of external flash below the first referenced image, at `0x08400000` to `0x084F93C7`, looks like font bitmaps but is not decoded.
-- Panel resolution and exact controller part.
+- The exact LCD controller part.
 - How the blue and pink themes differ. See [protocol.md](./protocol.md#theme).
