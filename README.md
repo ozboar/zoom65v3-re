@@ -2,7 +2,7 @@
 
 ## PCB
 
-MCU: `HFD22001A` (Huafenda-rebranded WestBerryTech `WB32FQ95`)
+MCU: `HFD22Q01A` (Huafenda-rebranded WestBerryTech `WB32FQ95`)
 
 - [MCU Docs](./docs/EN_RM2905025_WB32FQ95xx_V01.pdf)
 - [MCU Docs Alt](./docs/EN_DS1905020_WB32FQ95xC_V01.pdf)
@@ -43,10 +43,14 @@ Visualized layout available at this [keyboard layout editor permalink](https://w
 
 |         |  1 |   2 |  3 |  4 |      5 |  6 |   7 |   8 |   9 |  10 |     11 |  12 |  13 | 14 |
 |---------|---:|----:|---:|---:|-------:|---:|----:|----:|----:|----:|-------:|----:|----:|---:|
-| **PIN** | ?? | GND | ?? | ?? | B1     | A8 | B13 | C11 | C10 | VCC | B2     | C14 | C13 | ?? |
-| **Use** |    | -   |    |    | col 14 |    |     | RX  | TX  | +   | col 15 |     |     |    |
+| **PIN** | ?? | GND | ?? | C6 (diode) | B1     | A8 | B13 | C11 | C10 | VCC | B2     | C14 | C13 | GND |
+| **Use** |    | -   |    | row 0      | col 14 | screen BOOT0 | screen NRST | RX  | TX  | +   | col 15 |     |     |    |
 
+- A meter on one keyboard confirmed pins 2, 4, 5, 6, 7, 8, 9, 10, 12 and 13, with 3.3 V on pin 10. Pin 14 is also ground. Pins 1 and 11 were not measured
+- Pin 4 reaches C6 through a diode on the main board. Pin 3 also shows a diode, source not traced
 - RX and TX are used for commands over UART3
+- Pins 6 and 7 are the screen MCU BOOT0 and NRST per the [main board](./docs/65V3-Mboard_SCH.pdf) and [screen](./docs/65V3-LCD_SCH_Schematic.pdf) schematics. The screen board has a 10k pulldown on BOOT0 and a 10k pullup on NRST. Continuity to the screen board was not measured
+- The main board schematic numbers this connector in reverse: schematic pin N is pin 15-N here
 - Column 14 + 15 are used for the rotary encoder
 - Column 14 is used for the onekey module
 
